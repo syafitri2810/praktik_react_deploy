@@ -1,0 +1,4 @@
+body {
+  margin: 0;               /* hilangkan jarak bawaan browser */
+  background: #090c1b;     /* warna cadangan sebelum React tampil */
+}

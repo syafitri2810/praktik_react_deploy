@@ -1,0 +1,188 @@
+
+   /*src/App.css  —  Gaya untuk Formulir Login "Jendela Pagi"*/
+   
+:root {
+  --ink: #2b2433;      /* warna teks utama */
+  --accent: #ff8a5b;   /* warna oranye tombol */
+  --accent2: #e8590c;  /* oranye lebih tua (gradasi tombol) */
+  --muted: #8a8296;    /* warna teks redup */
+}
+
+* { box-sizing: border-box; }
+
+/* ---------- Halaman utama ---------- */
+.scene {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  padding: 28px;
+  flex-wrap: wrap;          /* di HP, formulir turun ke bawah jendela */
+  position: relative;
+  overflow: hidden;
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Latar malam (biru tua) dan latar pagi (krem) ditumpuk,
+   opacity latar pagi diatur lewat React */
+.bgd { position: absolute; inset: 0; background: linear-gradient(160deg, #0d1330, #1a2150); }
+.bgl { position: absolute; inset: 0; background: linear-gradient(160deg, #ffe6c9, #fff5e6); }
+
+/* ---------- Jendela ---------- */
+.left { position: relative; z-index: 1; width: 300px; max-width: 100%; }
+
+/* Bingkai jendela berbentuk lengkung di atas */
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 12px solid #6b4a35;
+  border-radius: 140px 140px 10px 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+}
+
+.sky, .skyn { position: absolute; inset: 0; }
+.skyn { background: linear-gradient(#0a1030, #27346b); } /* langit malam */
+.sky  { background: linear-gradient(#8ec9ff, #ffd9a8 80%); } /* langit pagi */
+
+/* Bintang berkedip */
+.star {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: #fff;
+  animation: kedip 2.4s infinite alternate;
+}
+@keyframes kedip { from { opacity: .2; } to { opacity: 1; } }
+
+/* Matahari */
+.sun {
+  position: absolute;
+  left: 50%; bottom: 30%;
+  width: 70px; height: 70px;
+  margin-left: -35px;
+  border-radius: 50%;
+  background: #ffd24d;
+  box-shadow: 0 0 50px 20px rgba(255, 210, 77, .6);
+}
+
+/* Awan yang bergerak pelan */
+.cloud {
+  position: absolute;
+  height: 18px; width: 70px;
+  border-radius: 20px;
+  background: #fff;
+  opacity: .9;
+  animation: geser 22s linear infinite;
+}
+.cloud::before {              /* gundukan di atas awan */
+  content: '';
+  position: absolute;
+  left: 12px; top: -10px;
+  width: 30px; height: 24px;
+  border-radius: 50%;
+  background: #fff;
+}
+@keyframes geser { from { transform: translateX(-120px); } to { transform: translateX(360px); } }
+
+.hills { position: absolute; bottom: 0; left: 0; width: 100%; height: 34%; }
+
+/* Kusen jendela (garis mendatar & tegak) */
+.bar-h, .bar-v { position: absolute; background: #6b4a35; z-index: 3; }
+.bar-h { left: 0; right: 0; top: 55%; height: 8px; }
+.bar-v { top: 0; bottom: 0; left: 50%; width: 8px; margin-left: -4px; }
+
+/* Tirai kiri & kanan */
+.curt {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  z-index: 4;
+  background: repeating-linear-gradient(90deg, #c4506a 0 14px, #a73a54 14px 28px);
+  transition: transform .15s linear;
+  box-shadow: 0 0 18px rgba(0, 0, 0, .4);
+}
+.curt.l { left: 0;  transform-origin: left; }   /* menyusut ke kiri */
+.curt.r { right: 0; transform-origin: right; }  /* menyusut ke kanan */
+
+/* Batang penggantung tirai */
+.rod { height: 8px; border-radius: 4px; background: #6b4a35; margin: 0 -8px 10px; }
+
+/* ---------- Slider ---------- */
+.ctl { margin-top: 22px; color: #fff; text-align: center; font-size: 13px; }
+.day .ctl { color: var(--ink); }  /* teks jadi gelap saat sudah pagi */
+input[type='range'] { width: 100%; accent-color: var(--accent); }
+
+/* ---------- Kartu formulir ---------- */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 340px; max-width: 100%;
+  padding: 30px 28px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .96);
+  opacity: .4;                    /* redup saat terkunci */
+  filter: blur(1.5px);
+  transform: scale(.97);
+  transition: all .5s;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .25);
+}
+.card.active { opacity: 1; filter: none; transform: scale(1); } /* jelas saat aktif */
+
+.card h1 { margin: 0; font-size: 25px; }
+.sub { margin: 4px 0 8px; font-size: 13px; color: var(--muted); }
+
+label { display: block; font-size: 12px; margin: 14px 0 6px; color: var(--muted); letter-spacing: .05em; }
+
+.t {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid #eee6dd;
+  background: #fffaf5;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: .2s;
+}
+.t:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(255, 138, 91, .18); }
+.t:disabled { cursor: not-allowed; }
+
+/* Tombol Masuk */
+.go {
+  width: 100%;
+  margin-top: 24px;
+  padding: 13px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  transition: .15s;
+}
+.go:hover:not(:disabled) { transform: translateY(-1px); }
+.go:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Tampilan setelah berhasil masuk */
+.ok { text-align: center; padding: 16px 0; }
+.ok .e { font-size: 48px; }
+.ok button {
+  margin-top: 16px;
+  background: none;
+  border: 1.5px solid var(--accent);
+  color: var(--accent2);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Hormati pengguna yang mematikan animasi di perangkatnya */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
